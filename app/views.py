@@ -1,14 +1,14 @@
 from app import app, db
 from flask import url_for, redirect, render_template, request, abort
-import flask_login as login
 from flask_admin import Admin, helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
-from app.models import User, Post, Comment, Tag, Role, People, roles_users
-from flask_security import Security, SQLAlchemyUserDatastore, current_user
+from app.models import User, Post, Comment, Tag, Role, People
+from flask_security import Security, SQLAlchemyUserDatastore, current_user, logout_user, login_required
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
+@login_required
 @app.route('/')
 def index():
     return render_template ('index.html')
@@ -38,29 +38,25 @@ class MyAdminIndexView(AdminIndexView):
     @expose('/')
     def index(self):
         if not current_user.is_authenticated:
-            return redirect(url_for('.login_page')) #перенаправление на страницу логина, если не зашел в свой профиль
+            return redirect(url_for('.login_page'))  # перенаправление на страницу логина, если не зашел в свой профиль
         result = User.query.all()
-        #return super(MyAdminIndexView, self).index()
-        return self.render('admin/index2.html', result = result) #рендерим измененный index
+        # return super(MyAdminIndexView, self).index()
+        return self.render('admin/index2.html', result=result)  # рендерим измененный index
 
     @expose('/login/', methods=('GET', 'POST'))
     def login_page(self):
         if current_user.is_authenticated:
-            return redirect(url_for('.index')) #перенаправление на главную, если не зашел в свой профиль
+            return redirect(url_for('.index'))  # перенаправление на главную, если не зашел в свой профиль
         return super(MyAdminIndexView, self).index()
 
-    @expose('/logout/')
+    @expose('/logout/')  #Выход из профиля
     def logout_page(self):
-        login.logout_user()
+        logout_user()
         return redirect(url_for('.index'))
 
-    @expose('/reset/')
-    def reset_page(self):
-        return redirect(url_for('.index'))
-
-    @expose('/change/') #смена пароля
-    def change(self):
-        return redirect(url_for('.index'))
+    # @expose('/reset/')
+    # def reset_page(self):
+    #     return redirect(url_for('.index'))
 
 # Create admin
 admin = Admin(app, index_view=MyAdminIndexView(), base_template='admin/master-extended.html', template_mode='bootstrap3')
