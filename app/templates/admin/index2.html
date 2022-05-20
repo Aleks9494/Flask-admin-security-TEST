@@ -1,0 +1,26 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+{{ super() }}
+<div class="row-fluid">
+    <div>
+        {% if current_user.is_authenticated %}
+        <div>
+            <h2>Logged in User details</h2>
+            <ul>
+                <li>Username: {{ current_user.username }}</li>
+                <li>Email: {{ current_user.email }}</li>
+                <li>Created on: {{ current_user.created_on }}</li>
+                <li>Updated on: {{ current_user.updated_on }}</li>
+            </ul>
+
+            <h2>Основные ваши настройки</h2>
+            <p class="lead">Вы можете:</p>
+            <p><a href="/admin/change/">Изменить пароль</a></p>
+        </div>
+        {% endif %}
+
+        {% for r in result %}
+            {{r.name}}
+            {{r.username}}
+        {% endfor %}
+{% endblock %}
