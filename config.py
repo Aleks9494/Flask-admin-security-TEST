@@ -11,7 +11,6 @@ SECURITY_URL_PREFIX = "/admin"
 SECURITY_PASSWORD_HASH = "pbkdf2_sha512"
 SECURITY_PASSWORD_SALT = "ATGUOHAELKiubahiughaerGOJAEGj"
 
-
 SECURITY_LOGIN_URL = "/login/"
 SECURITY_LOGOUT_URL = "/logout/"
 SECURITY_REGISTER_URL = "/register/"
@@ -29,12 +28,24 @@ SECURITY_CHANGEABLE = True #для смены пароля
 SECURITY_RECOVERABLE = True #сброс пароля
 SECURITY_SEND_REGISTER_EMAIL = False
 SECURITY_SEND_PASSWORD_CHANGE_EMAIL = False
-SECURITY_SEND_PASSWORD_RESET_EMAIL = False
+SECURITY_SEND_PASSWORD_RESET_EMAIL = True #отправка почты с инструкциями для смены смены пароля
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 SECURITY_LOGIN_USER_TEMPLATE = 'security/login_user.html'
-SECURITY_REGISTER_USER_TEMPLATE = 'security/reset_password.html'
-SECURITY_CHANGE_PASSWORD_TEMPLATE = 'security/change_password.html'
+SECURITY_REGISTER_USER_TEMPLATE = 'security/register_user.html'
+SECURITY_CHANGE_PASSWORD_TEMPLATE = 'security/change_password.html'#представление для смены пароля
+SECURITY_RESET_PASSWORD_TEMPLATE = 'security/reset_password.html' #представление, если нажали забыть пароль, перешли сюда для его смены
+SECURITY_FORGOT_PASSWORD_TEMPLATE = 'security/forgot_password.html' #представление, если нажали забыть пароль, отправка на мейл действий для смены пароля
+
+
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 587
+MAIL_USE_TLS = True
+MAIL_USERNAME = 'aleks.aleks768@gmail.com'  # введите свой адрес электронной почты здесь
+MAIL_DEFAULT_SENDER = 'aleks.aleks768@gmail.com'  # и здесь
+MAIL_PASSWORD = 'Aleks1994'  # введите пароль
+
+
 
 
 

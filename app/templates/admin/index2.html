@@ -18,9 +18,10 @@
             <p><a href="{{url_for_security('change_password')}}">Изменить пароль</a></p>
         </div>
         {% endif %}
+    {% for r in result %}
+        <ul>
+            <li>{{r.name}}<br>{{r.username}}<br>{% for role in r.roles%}{{role.name}}{% endfor %}</li>
+        </ul>
+    {% endfor %}
 
-        {% for r in result %}
-            {{r.name}}
-            {{r.username}}
-        {% endfor %}
 {% endblock %}

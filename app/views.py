@@ -17,7 +17,7 @@ def index():
 class MyModelView(ModelView):
 
     def is_accessible(self):
-        """Проверяет, зашел ли админ в совй профиль, если да, то возвращает его"""
+        """Проверяет, зашел ли админ в совй профиль, если да, то возвращает его, показывает основное меню с таблицами"""
         return (current_user.is_active and
                 current_user.is_authenticated and
                 current_user.has_role('admin')) #функция модели User
@@ -33,7 +33,7 @@ class MyModelView(ModelView):
             else:
                 return redirect(url_for('security.login', next=request.url))
 
-# Переадресация страниц (используется в шаблонах)
+# Переадресация страниц (используется в шаблонах), изменение вида главной страницы админки (под главным меню)
 class MyAdminIndexView(AdminIndexView):
     @expose('/')
     def index(self):
@@ -48,15 +48,6 @@ class MyAdminIndexView(AdminIndexView):
         if current_user.is_authenticated:
             return redirect(url_for('.index'))  # перенаправление на главную, если не зашел в свой профиль
         return super(MyAdminIndexView, self).index()
-
-    @expose('/logout/')  #Выход из профиля
-    def logout_page(self):
-        logout_user()
-        return redirect(url_for('.index'))
-
-    # @expose('/reset/')
-    # def reset_page(self):
-    #     return redirect(url_for('.index'))
 
 # Create admin
 admin = Admin(app, index_view=MyAdminIndexView(), base_template='admin/master-extended.html', template_mode='bootstrap3')
