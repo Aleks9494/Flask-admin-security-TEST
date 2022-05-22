@@ -37,13 +37,19 @@ SECURITY_CHANGE_PASSWORD_TEMPLATE = 'security/change_password.html'#предст
 SECURITY_RESET_PASSWORD_TEMPLATE = 'security/reset_password.html' #представление, если нажали забыть пароль, перешли сюда для его смены
 SECURITY_FORGOT_PASSWORD_TEMPLATE = 'security/forgot_password.html' #представление, если нажали забыть пароль, отправка на мейл действий для смены пароля
 
+"""Сброс и восстановление пароля доступны, когда пользователь забывает свой пароль. 
+Flask-Security отправляет пользователю электронное письмо со ссылкой на представление, в котором 
+он может сбросить свой пароль. После сброса пароля они автоматически входят в систему и 
+могут использовать новый пароль с этого момента. 
+Ссылки для сброса пароля могут быть настроены на истечение срока действия через определенное время.
+Т.Е. forgot_password и reset_password должны выполняться вместе + flask-mail для отправки инструкций на почту"""
 
 MAIL_SERVER = 'smtp.gmail.com'
 MAIL_PORT = 587
 MAIL_USE_TLS = True
-MAIL_USERNAME = 'aleks.aleks768@gmail.com'  # введите свой адрес электронной почты здесь
-MAIL_DEFAULT_SENDER = 'aleks.aleks768@gmail.com'  # и здесь
-MAIL_PASSWORD = 'Aleks1994'  # введите пароль
+MAIL_USERNAME = 'testmail@gmail.com'  # введите свой адрес электронной почты здесь
+MAIL_DEFAULT_SENDER = 'testmail@gmail.com'  # и здесь
+MAIL_PASSWORD = 'Password'  # введите пароль
 
 
 
