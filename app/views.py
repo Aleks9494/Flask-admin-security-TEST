@@ -1,14 +1,29 @@
 from app import app, db
-from flask import url_for, redirect, render_template, request, abort
+from flask import url_for, redirect, render_template, request, abort, current_app
 from flask_admin import Admin, helpers, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from app.models import User, Post, Comment, Tag, Role, People
-from flask_security import Security, SQLAlchemyUserDatastore, current_user, logout_user, login_required
+from flask_security import Security, SQLAlchemyUserDatastore, current_user, login_required, roles_required, roles_accepted
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
+
+@app.route('/test1')
 @login_required
+def test_login():
+    return f'<h2>Только для авторизованных!!!</h2>'
+
+@app.route('/test2')
+@roles_required ('admin') # должен иметь роль admin
+def test_roles_req():
+    return f'<h2>Только для admina!!!</h2>'
+
+@app.route('/test3')
+@roles_accepted ('admin','user') # должен иметь роль admin или user
+def test_roles_acc():
+    return f'<h2>Только для admina или usera!!!</h2>'
+
 @app.route('/')
 def index():
     return render_template ('index.html')
